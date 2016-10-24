@@ -18,7 +18,7 @@ HistoryForm::HistoryForm(HistoryModel *model, QWidget *parent) :
     auto font = QApplication::font();
     m_metrics = new QFontMetrics(font);
     auto currentSize = size();
-    currentSize.setHeight(m_metrics->height() * model->getMaxCount());
+    currentSize.setHeight((m_metrics->height() + 3) * model->getMaxCount());
     resize(currentSize);
 
     ui->listView->setSizeAdjustPolicy(QListView::AdjustToContents);
@@ -38,28 +38,13 @@ void HistoryForm::adjustFormSize() {
 
     QString longestStr = "";
     int longestPixels = 0;
-    bool longestPixelsValid = true;
     for(auto i = 0; i < m_model->rowCount(); ++i) {
         auto str = m_model->index(i).data().toString();
-        if(str.size() > longestStr.size()) {
+        auto strPixels = m_metrics->width(str);
+        if(longestPixels < strPixels) {
             longestStr = str;
-            longestPixelsValid = false;
+            longestPixels = strPixels;
         }
-        else if (str.size() == longestStr.size()) {
-            auto strPixels = m_metrics->width(str);
-            if(!longestPixelsValid) {
-               longestPixels = m_metrics->width(longestStr);
-               longestPixelsValid = true;
-            }
-            if(longestPixelsValid && longestPixels < strPixels) {
-                longestStr = str;
-                longestPixels = strPixels;
-            }
-        }
-    }
-
-    if(!longestPixelsValid) {
-       longestPixels = m_metrics->width(longestStr);
     }
 
     qDebug() << "Longest String is " << longestStr << " " << longestPixels;
