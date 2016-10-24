@@ -15,7 +15,7 @@ public:
     bool nativeEventFilter(const QByteArray& eventType, void* message, long* result) override;
 
 signals:
-    void keyPressed(Key keyId, Action action);
+    void keyPressed(Key keyId, Qt::KeyboardModifiers keyMods);
 
 public slots:
 };

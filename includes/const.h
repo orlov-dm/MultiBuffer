@@ -4,12 +4,6 @@
 #include <QDebug>
 #include <QList>
 
-enum class Action {
-    SHOW_HISTORY,
-    COPY,
-    PASTE
-};
-
 enum Key {    
     NUM_0 = 0x30,
     NUM_1,

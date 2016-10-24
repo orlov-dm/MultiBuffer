@@ -41,10 +41,10 @@ MultiBuffer::~MultiBuffer()
     if(m_historyModel) delete m_historyModel;
 }
 
-void MultiBuffer::onKeyPressed(Key keyId, Action action)
+void MultiBuffer::onKeyPressed(Key keyId, Qt::KeyboardModifiers keyMods)
 {
-    qDebug() << "Key Pressed " << (uint)keyId << " " << static_cast<int>(action);
-    if(keyId == Key::V && action == Action::SHOW_HISTORY) {
+    qDebug() << "Key Pressed " << (uint)keyId << " " << keyMods;
+    if(keyId == Key::V && keyMods & Qt::ControlModifier && keyMods & Qt::ShiftModifier) {
         showHistory();
     }
 }

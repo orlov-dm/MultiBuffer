@@ -27,7 +27,7 @@ signals:
 public slots:
 
 protected slots:
-    void onKeyPressed(Key keyId, Action action);
+    void onKeyPressed(Key keyId, Qt::KeyboardModifiers keyMods);
     void onClipboardChanged();
     void onItemDoubleClicked(uint row);
 

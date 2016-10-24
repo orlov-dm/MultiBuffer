@@ -19,22 +19,15 @@ bool NativeEventFilter::nativeEventFilter(const QByteArray &eventType, void *mes
 #ifdef Q_OS_WIN
     if (eventType == "windows_generic_MSG") {
         auto msg = static_cast<MSG*>(message);
-        if (msg->message == WM_HOTKEY) {
-            Action action;
+        if (msg->message == WM_HOTKEY) {            
+            Qt::KeyboardModifiers modifiers = Qt::NoModifier;
             if(msg->lParam & MOD_CONTROL) {
+                modifiers |= Qt::ControlModifier;
                 if(msg->lParam & MOD_SHIFT) {
-                    if(msg->wParam == Key::V) {
-                        action = Action::SHOW_HISTORY;
-                    }
-                    else {
-                        action = Action::COPY;
-                    }
-                }
-                else {
-                    action = Action::PASTE;
-                }
-                emit keyPressed(static_cast<Key>(msg->wParam), action);
-            }            
+                    modifiers |= Qt::ShiftModifier;
+                }                                
+            }
+            emit keyPressed(static_cast<Key>(msg->wParam), modifiers);
         }
     }
 #endif
