@@ -37,7 +37,7 @@ MultiBuffer::MultiBuffer(NativeEventFilter *filter, QObject *parent)
 
     connect(filter, &NativeEventFilter::keyPressed, this, &MultiBuffer::onKeyPressed);
     connect(m_clipboard, &QClipboard::dataChanged, this, &MultiBuffer::onClipboardChanged);
-    connect(m_history, &HistoryForm::itemDoubleClicked, this, &MultiBuffer::onItemDoubleClicked);
+    connect(m_history, &HistoryForm::itemActivated, this, &MultiBuffer::onItemActivated);
     connect(this, &MultiBuffer::changed, m_history, &HistoryForm::adjustFormSize);
 }
 
@@ -92,9 +92,9 @@ void MultiBuffer::onClipboardChanged() {
 }
 
 
-void MultiBuffer::onItemDoubleClicked(uint row) {
+void MultiBuffer::onItemActivated(QString data) {
     m_skipNextAddition = true;
-    m_clipboard->setText(m_historyModel->getValueByRow(row));
+    m_clipboard->setText(data);
     m_history->hide();
 
     pasteInCurrentActiveWindow();

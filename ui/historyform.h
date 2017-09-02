@@ -37,7 +37,7 @@ private:
 
     QFontMetrics *m_metrics = nullptr;
 signals:
-    void itemDoubleClicked(uint row);
+    void itemActivated(QString data);
 };
 
 #endif // HISTORYFORM_H

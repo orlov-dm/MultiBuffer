@@ -29,7 +29,7 @@ public slots:
 protected slots:
     void onKeyPressed(Key keyId, Qt::KeyboardModifiers keyMods);
     void onClipboardChanged();
-    void onItemDoubleClicked(uint row);
+    void onItemActivated(QString data);
 
 protected:
     void showHistory();

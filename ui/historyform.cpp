@@ -53,7 +53,7 @@ void HistoryForm::setMainColor(const QColor &color) {
 }
 
 void HistoryForm::onListActivated(const QModelIndex &index) {
-    emit itemDoubleClicked(index.row());
+    emit itemActivated(index.data().toString());
 }
 
 void HistoryForm::adjustFormSize() {
