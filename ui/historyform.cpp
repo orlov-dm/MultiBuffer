@@ -6,6 +6,8 @@
 
 #include <QClipboard>
 #include <QFontMetrics>
+#include <QLabel>
+#include <QToolTip>
 
 HistoryForm::HistoryForm(HistoryModel *model, QWidget *parent) :
     QWidget(parent, Qt::Popup),
@@ -18,7 +20,7 @@ HistoryForm::HistoryForm(HistoryModel *model, QWidget *parent) :
     auto font = QApplication::font();
     m_metrics = new QFontMetrics(font);
     auto currentSize = size();
-    currentSize.setHeight((m_metrics->height() + 3) * model->getMaxCount());
+    currentSize.setHeight((m_metrics->height() + 3) * HistoryModel::getMaxCount());
     resize(currentSize);
 
     ui->listView->setSizeAdjustPolicy(QListView::AdjustToContents);
@@ -55,7 +57,7 @@ void HistoryForm::onListActivated(const QModelIndex &index) {
 }
 
 void HistoryForm::adjustFormSize() {
-    Q_ASSERT(m_metrics);
+    Q_ASSERT(m_metrics);    
 
     QString longestStr = "";
     int longestPixels = 0;
