@@ -1,28 +1,39 @@
 #include "multibuffer.h"
 
-#include <windows.h>
 #include "includes/const.h"
 #include "models/historymodel.h"
 #include "ui/historyform.h"
+
+#include <windows.h>
+#include <dwmapi.h>
 
 #include <QApplication>
 #include <QWidget>
 #include <QClipboard>
 #include <QTimer>
+#include <QDesktopWidget>
 
 #include <QDebug>
 
 MultiBuffer::MultiBuffer(NativeEventFilter *filter, QObject *parent)
     : QObject(parent), m_clipboard(QApplication::clipboard())
 {
-//    for(auto id: NUM_KEYS) {
-//        RegisterHotKey(NULL, id, MOD_CONTROL | MOD_SHIFT | MOD_NOREPEAT, id);
-//        RegisterHotKey(NULL, id + NUM_KEYS.size(), MOD_CONTROL | MOD_NOREPEAT, id);
-//    }
     RegisterHotKey(NULL, Key::V, MOD_CONTROL | MOD_SHIFT | MOD_NOREPEAT, Key::V);
 
     m_historyModel = new HistoryModel(this);
     m_history = new HistoryForm(m_historyModel);
+
+    //get win color
+    DWORD color = 0;
+    BOOL opaque = FALSE;
+    HRESULT hr = DwmGetColorizationColor(&color, &opaque);
+    if(SUCCEEDED(hr)) {
+        auto qtColor = QColor(color);
+        if(opaque) {
+            qtColor.setAlpha(125);
+        }
+        m_history->setMainColor(qtColor);
+    }
 
     connect(filter, &NativeEventFilter::keyPressed, this, &MultiBuffer::onKeyPressed);
     connect(m_clipboard, &QClipboard::dataChanged, this, &MultiBuffer::onClipboardChanged);
@@ -32,9 +43,6 @@ MultiBuffer::MultiBuffer(NativeEventFilter *filter, QObject *parent)
 
 MultiBuffer::~MultiBuffer()
 {
-//    for(auto id: NUM_KEYS) {
-//        UnregisterHotKey(NULL, id);
-//    }
     UnregisterHotKey(NULL, Key::V);
 
     if(m_history) delete m_history;

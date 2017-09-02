@@ -2,6 +2,7 @@
 #define HISTORYFORM_H
 
 #include <QWidget>
+#include <QColor>
 
 class HistoryModel;
 class QFontMetrics;
@@ -17,6 +18,8 @@ class HistoryForm : public QWidget
 public:
     explicit HistoryForm(HistoryModel *model, QWidget *parent = 0);
     virtual ~HistoryForm();
+
+    void setMainColor(const QColor &color);
 
 public slots:
     void adjustFormSize();

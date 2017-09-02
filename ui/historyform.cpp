@@ -29,7 +29,28 @@ HistoryForm::~HistoryForm() {
     delete ui;
 }
 
-void HistoryForm::onListDoubleClicked(const QModelIndex &index) {
+void HistoryForm::setMainColor(const QColor &color) {    
+    qDebug() << color;
+
+    int luminance = color.red()*0.2126 + color.green()*0.7152 + color.blue()*0.0722;
+    auto fontColor = luminance > 179 ? QColor(Qt::black) : QColor(Qt::white);
+
+    auto styleBack = QString("*{background-color: rgb(%1, %2, %3);}")
+            .arg(color.red())
+            .arg(color.green())
+            .arg(color.blue());
+    auto styleFont = QString("QListView{color: rgb(%1, %2, %3);outline: none; show-decoration-selected: 0;}")
+            .arg(fontColor.red())
+            .arg(fontColor.green())
+            .arg(fontColor.blue());
+
+    auto styleItem = QString("QListView::item:selected{background-color: palette(highlight); color: palette(highlightedText);}");
+
+    QStringList styles = {styleBack, styleFont, styleItem};
+    ui->listView->setStyleSheet(styles.join(' '));
+}
+
+void HistoryForm::onListActivated(const QModelIndex &index) {
     emit itemDoubleClicked(index.row());
 }
 

@@ -11,9 +11,9 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = MultiBuffer
 TEMPLATE = app
 
-win32 {
-    LIBS += -L"C:\\Program Files (x86)\\Microsoft SDKs\\Windows\\v7.1A\\Lib\\x64" -lUser32
-}
+LIBS += -L"C:\\Program Files (x86)\\Microsoft SDKs\\Windows\\v7.1A\\Lib\\x64"
+LIBS += -lUser32
+LIBS += -lDwmapi
 
 
 SOURCES += main.cpp \
