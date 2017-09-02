@@ -26,9 +26,10 @@ public slots:
 
 protected:
     void copyStringToClipboard(const QString &value);
+    virtual void showEvent(QShowEvent *event);
 
 protected slots:
-    void onListDoubleClicked(const QModelIndex &index);
+    void onListActivated(const QModelIndex &index);
 
 private:
     Ui::HistoryForm *ui;

@@ -22,7 +22,7 @@ HistoryForm::HistoryForm(HistoryModel *model, QWidget *parent) :
     resize(currentSize);
 
     ui->listView->setSizeAdjustPolicy(QListView::AdjustToContents);
-    connect(ui->listView, &QListView::doubleClicked, this, &HistoryForm::onListDoubleClicked);
+    connect(ui->listView, &QListView::activated, this, &HistoryForm::onListActivated);
 }
 
 HistoryForm::~HistoryForm() {
@@ -76,4 +76,10 @@ void HistoryForm::adjustFormSize() {
     qDebug() << "Size is set to " << currentSize;
     resize(currentSize);
     qDebug() << "Size now " << size();
+}
+
+void HistoryForm::showEvent(QShowEvent *event) {
+    QWidget::showEvent(event);
+    ui->listView->setCurrentIndex(m_model->index(0));
+    ui->listView->setFocus();
 }
