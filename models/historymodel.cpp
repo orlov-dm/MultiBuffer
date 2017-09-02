@@ -50,14 +50,24 @@ QVariant HistoryModel::data(const QModelIndex &index, int role) const
             auto string = m_buffer[index.row()];
             QString sResult = "";
             if(role == Qt::DisplayRole) {
-                if(string.size() > 100) {
+                if(string.size() > DISPLAY_LENGTH) {
                     sResult = "...";
                 }
-                sResult.prepend(string.left(100).simplified());
+                sResult.prepend(string.simplified().left(DISPLAY_LENGTH));
                 result.setValue(sResult);
             }
             else if(role == Qt::ToolTipRole) {
-                result.setValue(string);
+                auto strings = string.split('\n');
+                if(strings.size() > TOOLTIP_HEIGHT) {
+                    strings = strings.mid(0, TOOLTIP_HEIGHT);
+                    strings.append("...");
+                }
+                for(auto &tempString: strings) {
+                    if(tempString.size() > TOOLTIP_LENGTH) {
+                        tempString = tempString.left(TOOLTIP_LENGTH).append("...");
+                    }
+                }
+                result.setValue(strings.join("\n"));
             }
             else if(role == Qt::FontRole) {
                 result.setValue(QApplication::font());
