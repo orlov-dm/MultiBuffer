@@ -61,7 +61,12 @@ void MultiBuffer::showHistory()
 {
     Q_ASSERT(m_history);
 
-    m_history->move(QCursor::pos());
+    //m_history->move(QCursor::pos());
+    QRect screenGeometry = QApplication::desktop()->screenGeometry();
+    int x = (screenGeometry.width() - m_history->width()) / 2;
+    int y = (screenGeometry.height() - m_history->height()) / 2;
+
+    m_history->move(x, y);
     m_history->show();
 }
 
