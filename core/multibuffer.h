@@ -25,14 +25,14 @@ signals:
     void changed();
 
 public slots:
+    void showHistory();
 
 protected slots:
-    void onKeyPressed(Key keyId, Qt::KeyboardModifiers keyMods);
     void onClipboardChanged();
-    void onItemActivated(QString data);
+    void onItemActivated(const QString data);
 
 protected:
-    void showHistory();
+
     void addCurrentClipboardValue();
     void pasteInCurrentActiveWindow();
 
@@ -43,6 +43,8 @@ private:
     QClipboard *m_clipboard;
     QString m_lastClipboardValue = "";
     bool m_skipNextAddition = false;
+
+    NativeEventFilter *m_filter;
 };
 
 #endif // MULTIBUFFER_H

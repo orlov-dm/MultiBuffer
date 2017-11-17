@@ -33,9 +33,9 @@ protected slots:
 
 private:
     Ui::HistoryForm *ui;
-    HistoryModel *m_model = nullptr;
+    HistoryModel *m_model/* = nullptr*/;
 
-    QFontMetrics *m_metrics = nullptr;
+    QFontMetrics *m_metrics/* = nullptr*/;
 signals:
     void itemActivated(QString data);
 };
